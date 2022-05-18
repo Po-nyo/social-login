@@ -4,7 +4,7 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: validate
+      ddl-auto: create
     #      naming:
     #        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
     properties:
@@ -19,7 +19,7 @@ logging.level:
 server:
   port: 1103
 
-# cors ??
+# cors 설정
 cors:
   allowed-origins: 'http://localhost:8080'
   allowed-methods: '*'

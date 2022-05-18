@@ -1,6 +1,8 @@
 package com.example.social.config;
 
 import com.example.social.config.properties.CorsProperties;
+import com.example.social.oauth.repository.OAuth2AuthorizationRequestBasedOnCookieRepository;
+import com.example.social.oauth.service.CustomOAuth2UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -22,6 +24,8 @@ import java.util.Arrays;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final CorsProperties corsProperties;
+    private final OAuth2AuthorizationRequestBasedOnCookieRepository oAuth2cookieRepository;
+    private final CustomOAuth2UserService customOAuth2UserService;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -41,10 +45,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .oauth2Login()
                 .authorizationEndpoint()
                 .baseUri("/oauth2/authorization")
+                .authorizationRequestRepository(oAuth2cookieRepository)
                 .and()
                 .redirectionEndpoint()
-                .baseUri("/*/oauth2/code/*");
-//                .authorizationRequestRepository()
+                .baseUri("/*/oauth2/code/*")
+                .and()
+                .userInfoEndpoint()
+                .userService(customOAuth2UserService);
+//                .and()
+//                .successHandler()
+//                .failureHandler()
     }
 
     // 패스워드 인코더 설정

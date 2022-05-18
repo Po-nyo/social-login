@@ -1,4 +1,4 @@
-package com.example.social.controller;
+package com.example.social.api.controller;
 
 import lombok.Data;
 import org.springframework.web.bind.annotation.*;
