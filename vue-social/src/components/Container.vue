@@ -1,17 +1,12 @@
 <template>
   <div class="container">
-    <SignIn/>
+    <router-view/>
   </div>
 </template>
 
 <script>
-import SignIn from "./Sign-in.vue"
-
 export default {
   name: 'main-container',
-  components: {
-    SignIn
-  }
 }
 </script>
 

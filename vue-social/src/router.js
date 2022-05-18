@@ -1,10 +1,24 @@
 import { createWebHistory, createRouter } from "vue-router";
+import Container from './components/Container.vue'
 import SignIn from './components/Sign-in.vue'
+import Redirect from './components/Oauth-redirect.vue'
 
 const routes = [
   {
     path: "/",
-    component: SignIn, 
+    component: Container,
+    children: [
+      {
+        path: '/',
+        name: 'main',
+        component: SignIn
+      },
+      {
+        path: '/oauth/redirect',
+        name: 'OauthRedirect',
+        component: Redirect
+      }
+    ]
   },
 ];
 

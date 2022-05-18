@@ -1,10 +1,14 @@
 module.exports = {
-  devServer: {
-    proxy: {
-      '/auth': {
-        target: 'http://localhost:1103',
-        changeOrigin: true,
-      }
-    }
-  }
+  // devServer: {
+  //   proxy: {
+  //     '/oauth': {
+  //       target: 'http://localhost:1103',
+  //       changeOrigin: true,
+  //     },
+  //     '/api': {
+  //       target: 'http://localhost:1103',
+  //       changeOrigin: true,
+  //     },
+  //   }
+  // }
 }

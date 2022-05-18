@@ -7,7 +7,7 @@
     </form>
     <button id="login-btn" @click="signIn" class="my-btn">로그인</button>
     <div class="oauth-btn-wrap">
-      <button class="my-btn"><img class="oauth-img float-start" src="/google.svg">구글 로그인하기</button>
+      <button class="my-btn" @click="redirectToSocialLogin('google')"><img class="oauth-img float-start" src="/google.svg">구글 로그인하기</button>
       <button class="my-btn"><img class="oauth-img float-start" src="/facebook.svg">페이스북 로그인하기</button>
     </div>
     <div class="assistance">
@@ -21,6 +21,8 @@
 import axios from 'axios'
 import { mapActions, mapMutations } from 'vuex'
 
+const backend = 'http://localhost:1103'
+
 export default {
   name: 'sign-in',
   data() {
@@ -33,7 +35,7 @@ export default {
      ...mapActions(['fetchUser']),
     ...mapMutations(['setToken', 'setUser']),
     signIn() {
-      axios.post("/auth/sign-in",
+      axios.post("/api/auth/sign-in",
       {
         'username': this.username,
         'password': this.password,
@@ -41,6 +43,9 @@ export default {
         console.log(res.data)
         this.setUser(res.data)
       })
+    },
+    redirectToSocialLogin(socialType) {
+      location.href = `${backend}/oauth2/authorization/${socialType}?redirect_uri=http://localhost:8080/oauth/redirect`
     }
   }
 }
