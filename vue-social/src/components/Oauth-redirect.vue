@@ -8,7 +8,6 @@ import {mapMutations, mapActions} from 'vuex'
 export default {
   created() {
     const token = this.$route.query.token
-    console.log(token);
     if (token) {
       this.setToken(token)
       this.fetchUser()

@@ -22,7 +22,7 @@ const store = createStore({
   },
   actions: {
     fetchUser(context) {
-      axios.get(`/auth/sign-in`)
+      axios.get(`/api/user`)
       .then(res => {
         context.commit('setUser', res.data)
       })
