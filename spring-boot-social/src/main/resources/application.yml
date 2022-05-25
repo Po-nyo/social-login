@@ -25,3 +25,14 @@ cors:
   allowed-methods: '*'
   allowed-headers: '*'
   max-age: 3600
+
+# 토큰 관련 설정, oauth redirectUri 설정
+app:
+  tokenSecret: 22E496C90I8NS318135B2431LS83JEH8
+  tokenExpiry: 1800000
+  refreshTokenExpiry: 604800000
+  oAuth2RedirectUris:
+    - http://localhost:8080/oauth/redirect
+
+# jwt secret key
+jwt.secret: '8sknjlO3NPTBqo319DHLNqsQAfRJEdKsETOds'

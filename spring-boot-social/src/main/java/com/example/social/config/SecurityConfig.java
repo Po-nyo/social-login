@@ -3,6 +3,7 @@ package com.example.social.config;
 import com.example.social.config.properties.CorsProperties;
 import com.example.social.oauth.repository.OAuth2AuthorizationRequestBasedOnCookieRepository;
 import com.example.social.oauth.service.CustomOAuth2UserService;
+import com.example.social.oauth.service.OAuth2AuthenticationSuccessHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -26,34 +27,38 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final CorsProperties corsProperties;
     private final OAuth2AuthorizationRequestBasedOnCookieRepository oAuth2cookieRepository;
     private final CustomOAuth2UserService customOAuth2UserService;
+    private final OAuth2AuthenticationSuccessHandler oAuth2AuthenticationSuccessHandler;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-                .cors()
+                    .cors()
                 .and()
-                .formLogin().disable()
-                .httpBasic().disable()
-                .csrf().disable()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                    .formLogin().disable()
+                    .httpBasic().disable()
+                    .csrf().disable()
+                    .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-                .authorizeRequests()
-                .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
-                .antMatchers("/user/**").authenticated()
-                .anyRequest().permitAll()
+                    .authorizeRequests()
+                    .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
+                    .antMatchers("/user/**").authenticated()
+                    .anyRequest().permitAll()
                 .and()
-                .oauth2Login()
-                .authorizationEndpoint()
-                .baseUri("/oauth2/authorization")
-                .authorizationRequestRepository(oAuth2cookieRepository)
+                    /* OAuth2 설정 */
+                    .oauth2Login()
+                    .authorizationEndpoint()
+                    // baseUri/{socialType}?redirect_uri={redirect_uri}
+                    .baseUri("/oauth2/authorization")
+                    // 쿠키 기반으로 OAuth2 요청 처리
+                    .authorizationRequestRepository(oAuth2cookieRepository)
                 .and()
-                .redirectionEndpoint()
-                .baseUri("/*/oauth2/code/*")
+                    .redirectionEndpoint()
+                    .baseUri("/*/oauth2/code/*")
                 .and()
-                .userInfoEndpoint()
-                .userService(customOAuth2UserService);
-//                .and()
-//                .successHandler()
+                    .userInfoEndpoint()
+                    .userService(customOAuth2UserService)
+                .and()
+                    .successHandler(oAuth2AuthenticationSuccessHandler);
 //                .failureHandler()
     }
 

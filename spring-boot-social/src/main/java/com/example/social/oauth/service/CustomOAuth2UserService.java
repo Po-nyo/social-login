@@ -5,7 +5,7 @@ import com.example.social.api.repository.UserRepository;
 import com.example.social.oauth.entity.ProviderType;
 import com.example.social.oauth.entity.RoleType;
 import com.example.social.oauth.entity.UserPrincipal;
-import com.example.social.oauth.info.OAuth2UserInfo;
+import com.example.social.oauth.entity.OAuth2UserInfo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.core.AuthenticationException;
@@ -40,13 +40,13 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
     private OAuth2User process(OAuth2UserRequest userRequest, OAuth2User user) {
         ProviderType providerType = ProviderType.valueOf(userRequest.getClientRegistration().getRegistrationId().toUpperCase());
 
-        OAuth2UserInfo userInfo = new OAuth2UserInfo(providerType, user.getAttributes());
-        User savedUser = userRepository.findByUsernameAndProviderType(userInfo.getId(), providerType);
+        OAuth2UserInfo oAuth2User = new OAuth2UserInfo(providerType, user.getAttributes());
+        User savedUser = userRepository.findByUsernameAndProviderType(oAuth2User.getId(), providerType);
 
         if (savedUser != null) {
-            updateUser(savedUser, userInfo);
+            updateUser(savedUser, oAuth2User);
         } else {
-            savedUser = createUser(userInfo, providerType);
+            savedUser = createUser(oAuth2User, providerType);
         }
 
         return UserPrincipal.create(savedUser, user.getAttributes());

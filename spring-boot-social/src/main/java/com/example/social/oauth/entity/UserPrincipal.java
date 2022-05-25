@@ -90,7 +90,7 @@ public class UserPrincipal implements OAuth2User, UserDetails, OidcUser {
                 user.getPassword(),
                 user.getProviderType(),
                 RoleType.ROLE_USER,
-                Collections.singletonList(new SimpleGrantedAuthority(RoleType.ROLE_USER.name()))
+                Collections.singletonList(new SimpleGrantedAuthority(RoleType.ROLE_USER.toString()))
         );
     }
 

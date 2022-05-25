@@ -1,6 +1,5 @@
-package com.example.social.oauth.info;
+package com.example.social.oauth.entity;
 
-import com.example.social.oauth.entity.ProviderType;
 import lombok.AllArgsConstructor;
 
 import java.util.Map;
