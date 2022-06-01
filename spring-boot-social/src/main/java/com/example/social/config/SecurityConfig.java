@@ -1,6 +1,7 @@
 package com.example.social.config;
 
 import com.example.social.config.properties.CorsProperties;
+import com.example.social.filter.TokenAuthenticationFilter;
 import com.example.social.oauth.repository.OAuth2AuthorizationRequestBasedOnCookieRepository;
 import com.example.social.oauth.service.CustomOAuth2UserService;
 import com.example.social.oauth.service.OAuth2AuthenticationSuccessHandler;
@@ -13,6 +14,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsUtils;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -28,6 +30,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final OAuth2AuthorizationRequestBasedOnCookieRepository oAuth2cookieRepository;
     private final CustomOAuth2UserService customOAuth2UserService;
     private final OAuth2AuthenticationSuccessHandler oAuth2AuthenticationSuccessHandler;
+    private final TokenAuthenticationFilter tokenAuthenticationFilter;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -60,6 +63,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                     .successHandler(oAuth2AuthenticationSuccessHandler);
 //                .failureHandler()
+
+        http.addFilterBefore(tokenAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
     }
 
     // 패스워드 인코더 설정
