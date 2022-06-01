@@ -1,7 +1,7 @@
 import axios from 'axios'
 import store from '../store.js'
 
-const wrap = url => `api/${url}`
+const wrap = url => `/api/${url}`
 const appendAuth = config => {
   const token = store.getters.token
   if (token) {

@@ -16,8 +16,8 @@
       </button>
       <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
         <ul class="navbar-nav">
-          <li class="nav-item my-nav-item">
-            <a class="nav-link" aria-current="page" href="#"><i class="fa-solid fa-right-to-bracket"></i></a>
+          <li v-if="isAuthenticated" class="nav-item my-nav-item">
+            <a class="nav-link" aria-current="page" href="#" @click="logout()"><i class="fa-solid fa-right-to-bracket"></i></a>
           </li>
           <li class="nav-item my-nav-item">
             <a class="nav-link" href="#"><i class="fa-solid fa-user-group"></i></a>
@@ -37,9 +37,25 @@
 </template>
 
 <script>
+import { mapGetters, mapMutations } from 'vuex'
 
 export default {
   name: "App",
+  computed: {
+    ...mapGetters(['token']),
+    isAuthenticated() {
+      return this.token != null
+    }
+  },
+  methods: {
+    ...mapMutations(['setToken', 'setUser']),
+    logout() {
+      this.setToken(null)
+      this.setUser(null)
+      alert('로그아웃 되었습니다.')
+      this.$router.push('/')
+    }
+  }
 };
 </script>
 
@@ -47,7 +63,7 @@ export default {
 html, body {
   height: 100vh;
 }
-button, p, h3, input, text, a {
+button, p, h3, input, text, a, th, td {
   letter-spacing: -0.2px;
   text-shadow: 1px 1px 1px #fff;
   font-family: 'Roboto', sans-serif;

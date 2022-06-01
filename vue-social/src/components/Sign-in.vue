@@ -19,12 +19,24 @@
 
 <script>
 import axios from 'axios'
-import { mapActions, mapMutations } from 'vuex'
+import { mapActions, mapMutations, mapGetters } from 'vuex'
 
 const backend = 'http://localhost:1103'
 
 export default {
   name: 'sign-in',
+  created () {
+    if (this.isAuthenticated) {
+      this.$router.replace('/details')
+    }
+  },
+  computed: {
+    ...mapGetters(['token', 'user']),
+
+    isAuthenticated() {
+      return this.token != null
+    }
+  },
   data() {
     return {
       username: '',

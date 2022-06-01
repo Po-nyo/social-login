@@ -2,6 +2,7 @@ import { createWebHistory, createRouter } from "vue-router";
 import Container from './components/Container.vue'
 import SignIn from './components/Sign-in.vue'
 import Redirect from './components/Oauth-redirect.vue'
+import UserDetails from './components/User-Details.vue'
 
 const routes = [
   {
@@ -12,6 +13,11 @@ const routes = [
         path: '/',
         name: 'main',
         component: SignIn
+      },
+      {
+        path: '/details',
+        name: 'user-details',
+        component: UserDetails
       },
       {
         path: '/oauth/redirect',

@@ -1,5 +1,5 @@
-import axios from 'axios'
 import { createStore } from 'vuex'
+import apiRequest from './api/api-request'
 
 const store = createStore({
   state(){
@@ -22,8 +22,7 @@ const store = createStore({
   },
   actions: {
     fetchUser(context) {
-      axios.get(`/api/user`)
-      .then(res => {
+      apiRequest.get(`users`, res => {
         context.commit('setUser', res.data)
       })
     }
